@@ -2,12 +2,12 @@ import * as S from './styles'
 export type Props = {
   active?: boolean
   counter: number
-  subitle
+  legend: string
 }
-const FilterCard = (props: Props) => (
-  <S.Card active={props.active}>
-    <S.Counter>3</S.Counter>
-    <S.Label>pendentes</S.Label>
+const FilterCard = ({ active, counter, legend }: Props) => (
+  <S.Card active={active}>
+    <S.Counter>{counter}</S.Counter>
+    <S.Label>{legend}</S.Label>
   </S.Card>
 )
 export default FilterCard
