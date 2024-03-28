@@ -1,38 +1,52 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import Task from '../../models/Task'
+import Tasks from '../../models/Task'
 import * as enums from '../../utils/enums/Task'
+
+type TasksState = {
+  itens: Tasks[]
+}
+
+const initialState: TasksState = {
+  itens: [
+    {
+      id: 1,
+      title: 'Estudar JavaScript',
+      description: 'Estudar javascript revendo exercicios',
+      priority: enums.Priority.NORMAL,
+      status: enums.Status.COMPLETE
+    },
+    {
+      id: 2,
+      title: 'Estudar Material de Apoio',
+      description: 'Estudar javascript revendo exercicios',
+      priority: enums.Priority.NORMAL,
+      status: enums.Status.PENDING
+    },
+    {
+      id: 3,
+      title: 'Estudar TypeScript',
+      description: 'Estudar javascript revendo exercicios',
+      priority: enums.Priority.IMPORTANT,
+      status: enums.Status.PENDING
+    }
+  ]
+}
 
 const tasksSlice = createSlice({
   name: 'tasks',
-  initialState: [
-    new Task(
-      'Estudar Javascript',
-      enums.Priority.IMPORTANT,
-      enums.Status.PENDING,
-      'Praticar exercícios solo',
-      1
-    ),
-    new Task(
-      'Estudar TypeScript',
-      enums.Priority.NORMAL,
-      enums.Status.COMPLETE,
-      'Rever aulda 2 do módulo',
-      2
-    ),
-    new Task(
-      'Estudar Redux',
-      enums.Priority.URGENT,
-      enums.Status.PENDING,
-      'Praticar estruturação do projeto',
-      3
-    )
-  ],
+  initialState,
   reducers: {
     remove: (state, action: PayloadAction<number>) => {
-      state = state.filter((task) => task.id !== action.payload)
+      state.itens = state.itens.filter((task) => task.id !== action.payload)
+    },
+    edit: (state, action: PayloadAction<Tasks>) => {
+      const taskIndex = state.itens.findIndex((t) => t.id === action.payload.id)
+      if (taskIndex >= 0) {
+        state.itens[taskIndex] = action.payload
+      }
     }
   }
 })
 
-export const { remove } = tasksSlice.actions
+export const { remove, edit } = tasksSlice.actions
 export default tasksSlice.reducer

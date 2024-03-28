@@ -1,19 +1,52 @@
+import { useDispatch, useSelector } from 'react-redux'
 import FilterCard from '../../components/FilterCard'
 import * as S from './styles'
+import * as enums from '../../utils/enums/Task'
+import { RootReducer } from '../../store'
+import { changeTerm } from '../../store/reducers/filter'
 
-const SideBar = () => (
-  <S.Aside>
-    <div>
-      <S.Input type="text" placeholder="Search" />
-      <S.Filters>
-        <FilterCard legend="pendentes" counter={1} />
-        <FilterCard legend="concluídas" counter={1} />
-        <FilterCard legend="urgentes" counter={1} />
-        <FilterCard legend="importantes" counter={1} />
-        <FilterCard legend="normal" counter={1} />
-        <FilterCard legend="todas" counter={1} active />
-      </S.Filters>
-    </div>
-  </S.Aside>
-)
+const SideBar = () => {
+  const dispatch = useDispatch()
+  const { term } = useSelector((state: RootReducer) => state.filter)
+  return (
+    <S.Aside>
+      <div>
+        <S.Input
+          type="text"
+          placeholder="Search"
+          value={term}
+          onChange={(e) => dispatch(changeTerm(e.target.value))}
+        />
+        <S.Filters>
+          <FilterCard
+            value={enums.Status.PENDING}
+            criterion="status"
+            legend="pendentes"
+          />
+          <FilterCard
+            value={enums.Status.COMPLETE}
+            criterion="status"
+            legend="concluídas"
+          />
+          <FilterCard
+            value={enums.Priority.URGENT}
+            criterion="priority"
+            legend="urgentes"
+          />
+          <FilterCard
+            value={enums.Priority.IMPORTANT}
+            criterion="priority"
+            legend="importantes"
+          />
+          <FilterCard
+            value={enums.Priority.NORMAL}
+            criterion="priority"
+            legend="normal"
+          />
+          <FilterCard criterion="all" legend="todas" />
+        </S.Filters>
+      </div>
+    </S.Aside>
+  )
+}
 export default SideBar
