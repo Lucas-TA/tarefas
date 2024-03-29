@@ -1,5 +1,4 @@
 import styled, { createGlobalStyle } from 'styled-components'
-import { Button } from '../components/Tarefa/styles'
 import variables from './variables'
 
 const GlobalStyle = createGlobalStyle`
@@ -35,8 +34,17 @@ export const Input = styled.input`
   border-color: #666666;
   width: 100%;
 `
+export const Button = styled.button`
+  font-size: 12px;
+  font-weight: bold;
+  padding: 6px 12px;
+  color: #fff;
+  cursor: pointer;
+  background-color: ${variables.darkBlue};
+  border-radius: 8px;
+  margin-right: 8px;
+`
 export const ButtonSave = styled(Button)`
   background-color: ${variables.green};
 `
-
 export default GlobalStyle

@@ -7,29 +7,7 @@ type TasksState = {
 }
 
 const initialState: TasksState = {
-  itens: [
-    {
-      id: 1,
-      title: 'Estudar JavaScript',
-      description: 'Estudar javascript revendo exercicios',
-      priority: enums.Priority.NORMAL,
-      status: enums.Status.COMPLETE
-    },
-    {
-      id: 2,
-      title: 'Estudar Material de Apoio',
-      description: 'Estudar javascript revendo exercicios',
-      priority: enums.Priority.NORMAL,
-      status: enums.Status.PENDING
-    },
-    {
-      id: 3,
-      title: 'Estudar TypeScript',
-      description: 'Estudar javascript revendo exercicios',
-      priority: enums.Priority.IMPORTANT,
-      status: enums.Status.PENDING
-    }
-  ]
+  itens: []
 }
 
 const tasksSlice = createSlice({
@@ -45,7 +23,7 @@ const tasksSlice = createSlice({
         state.itens[taskIndex] = action.payload
       }
     },
-    register: (state, action: PayloadAction<Tasks>) => {
+    register: (state, action: PayloadAction<Omit<Tasks, 'id'>>) => {
       const taskExists = state.itens.find(
         (task) =>
           task.title.toLowerCase() === action.payload.title.toLowerCase()
@@ -53,11 +31,27 @@ const tasksSlice = createSlice({
       if (taskExists) {
         alert('Já existe uma tarefa com esse nome')
       } else {
-        state.itens.push(action.payload)
+        const lastTask = state.itens[state.itens.length - 1]
+        const newTask = {
+          ...action.payload,
+          id: lastTask ? lastTask.id + 1 : 1
+        }
+        state.itens.push(newTask)
+      }
+    },
+    changeStatus: (
+      state,
+      action: PayloadAction<{ id: number; finished: boolean }>
+    ) => {
+      const taskIndex = state.itens.findIndex((t) => t.id === action.payload.id)
+      if (taskIndex >= 0) {
+        state.itens[taskIndex].status = action.payload.finished
+          ? enums.Status.COMPLETE
+          : enums.Status.PENDING
       }
     }
   }
 })
 
-export const { remove, edit, register } = tasksSlice.actions
+export const { remove, edit, register, changeStatus } = tasksSlice.actions
 export default tasksSlice.reducer

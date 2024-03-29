@@ -4,13 +4,15 @@ import * as S from './styles'
 import * as enums from '../../utils/enums/Task'
 import { RootReducer } from '../../store'
 export type Props = {
-  legend: string
+  legenda: string
   criterion: 'priority' | 'status' | 'all'
   value?: enums.Priority | enums.Status
 }
-const FilterCard = ({ legend, criterion, value }: Props) => {
+const FilterCard = ({ legenda, criterion, value }: Props) => {
   const dispatch = useDispatch()
+
   const { filter, tasks } = useSelector((state: RootReducer) => state)
+
   const verifyIsActive = () => {
     const sameCriterion = filter.criterion === criterion
     const sameValue = filter.value === value
@@ -45,7 +47,7 @@ const FilterCard = ({ legend, criterion, value }: Props) => {
   return (
     <S.Card active={active} onClick={filtering}>
       <S.Counter>{counter}</S.Counter>
-      <S.Label>{legend}</S.Label>
+      <S.Label>{legenda}</S.Label>
     </S.Card>
   )
 }

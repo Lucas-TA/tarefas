@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux'
-import Task from '../../components/Tarefa'
+import Task from '../../components/Task'
 import { MainContainer, Title } from '../../styles'
 import { RootReducer } from '../../store'
 
