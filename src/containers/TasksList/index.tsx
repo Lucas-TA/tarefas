@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux'
 import Task from '../../components/Tarefa'
-import { Container } from './styles'
+import { MainContainer, Title } from '../../styles'
 import { RootReducer } from '../../store'
 
 const TasksList = () => {
@@ -34,26 +34,20 @@ const TasksList = () => {
   }
   const showFilterResult = (quantity: number) => {
     let message = ''
-    const complement = term !== undefined && term.length > 0 ? `e "${term}"` : ''
-    }`
+    const complement =
+      term !== undefined && term.length > 0 ? `e "${term}"` : ''
     if (criterion === 'all') {
-      message = `${quantity} tarefas encontradas como: 'Todas' ${complement}`
+      message = `${quantity} tarefa(s) encontrada(s) como: 'Todas' ${complement}`
     } else {
-      message = `${quantity} tarefas encontradas como: ${`${criterion}=${value}`}`
+      message = `${quantity} tarefa(s) encontrada(s) como: "${`${value}`}" ${complement}`
     }
+    return message
   }
   const tasks = filterTask()
+  const message = showFilterResult(tasks.length)
   return (
-    <Container>
-      <p>
-        {tasks.length} tarefas marcada como: &quot;{`${criterion}=${value}`}
-        &ldquo; {term !== undefined && term.length > 0 ? `e "${term}"` : ''}
-      </p>
-      <ul>
-        <li>{term}</li>
-        <li>{criterion}</li>
-        <li>{value}</li>
-      </ul>
+    <MainContainer>
+      <Title as="p">{message}</Title>
       <ul>
         {tasks.map((t) => (
           <li key={t.title}>
@@ -67,7 +61,7 @@ const TasksList = () => {
           </li>
         ))}
       </ul>
-    </Container>
+    </MainContainer>
   )
 }
 export default TasksList
